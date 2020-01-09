@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="https://www.kelstra.com/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.kelstra.com/blog/" rel="alternate" type="text/html" /><updated>2019-05-15T12:56:42+03:00</updated><id>https://www.kelstra.com/blog/</id><title>Kelstra Technologies</title><subtitle>Articles on web development, responsive web design, website performance.</subtitle><author><name>George Okello</name><email>https://www.kelstra.com/contact.php</email><uri>https://www.kelstra.com/</uri></author><entry><title>The need for speed - Part 2</title><link href="https://www.kelstra.com/blog/the-need-for-speed-2/" rel="alternate" type="text/html" title="The need for speed - Part 2" /><published>2016-10-20T00:00:00+03:00</published><updated>2016-10-20T00:00:00+03:00</updated><id>https://www.kelstra.com/blog/the-need-for-speed-2</id><content type="html" xml:base="https://www.kelstra.com/blog/the-need-for-speed-2/">&lt;p&gt;In &lt;a href=&quot;http://www.kelstra.com/blog/the-need-for-speed/&quot;&gt;Part 1&lt;/a&gt;, we looked at server side compression and how it can reduce the overall size of a web page. The web page can be further optimised by minification, a process whereby all unnecessary characters are stripped from a file.&lt;/p&gt;
+
+&lt;p&gt;Let’s look at an example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;no-js&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Minification&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;viewport&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width=device-width, initial-scale=1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Add your site or application content here --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;This is an article about minification.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;caption&quot;&gt;Figure 1: Unminified code&lt;/div&gt;
+
+&lt;p&gt;The code in &lt;em&gt;Figure 1&lt;/em&gt; is indented and split across several lines. Much like the sentences and paragraphs in an article, this is done to increase legibility. This is useful during development, when the developer is writing the code. However, since the code is not seen by the users who view the web page, code readability is of little importance to them. Armed with this knowledge, we can confidently minify our files before deployment.&lt;/p&gt;
+
+&lt;p&gt;The code above is 329 bytes in length. What can be stripped? Each of the 13 lines, with the exception of the last line, contains an invisible character that marks the end of line ( EOL ). That’s 12 EOL characters, totalling 12 bytes.  329 - 12 = 317 bytes.&lt;/p&gt;
+
+&lt;p&gt;There are 28 indentation spaces, totalling 28 bytes. 317 - 28 = 289 bytes.&lt;/p&gt;
+
+&lt;p&gt;The start and end of a comment are marked by the opening and closing tags, &amp;lt;!– –&amp;gt;&lt;br /&gt;
+Since comments are not visible when a web page is viewed, they can safely be stripped.  Line 10 is a comment, 50 bytes in length.  289 - 50 = 239 bytes.&lt;/p&gt;
+
+&lt;p&gt;Our code now looks this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;no-js&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;title&amp;gt;&lt;/span&gt;Minification&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;viewport&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width=device-width, initial-scale=1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&lt;/span&gt;This is an article about minification.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;caption&quot;&gt;Figure 2: Minified code&lt;/div&gt;
+
+&lt;p&gt;The code is now 239 bytes in length, down from 329 bytes. A 27.36% reduction.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 3&lt;/em&gt; shows the effect of minification on a web page. The test setup was introduced in &lt;a href=&quot;http://www.kelstra.com/blog/the-need-for-speed/&quot;&gt;Part 1&lt;/a&gt;. Google Chrome’s Developer Tools, bandwidth throttled to &lt;em&gt;Regular 3G&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;* fontfaceobserver.min.js is already minified, hence the .min extension in its name.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Unminified&lt;/th&gt;
+      &lt;th&gt;Minified&lt;/th&gt;
+      &lt;th&gt;Reduction&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;kelstra.shtml&lt;/td&gt;
+      &lt;td&gt;5.7KB&lt;/td&gt;
+      &lt;td&gt;4.7KB&lt;/td&gt;
+      &lt;td&gt;17.54%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;site.css&lt;/td&gt;
+      &lt;td&gt;43.7KB&lt;/td&gt;
+      &lt;td&gt;27.2KB&lt;/td&gt;
+      &lt;td&gt;37.76%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;fontfaceobserver.min.js*&lt;/td&gt;
+      &lt;td&gt;5.7KB&lt;/td&gt;
+      &lt;td&gt;5.7KB&lt;/td&gt;
+      &lt;td&gt;0%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;modernizr.js&lt;/td&gt;
+      &lt;td&gt;9.1KB&lt;/td&gt;
+      &lt;td&gt;2.0KB&lt;/td&gt;
+      &lt;td&gt;78.02%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;main.js&lt;/td&gt;
+      &lt;td&gt;4.7KB&lt;/td&gt;
+      &lt;td&gt;2.1KB&lt;/td&gt;
+      &lt;td&gt;55.32%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;debug.js&lt;/td&gt;
+      &lt;td&gt;1.6KB&lt;/td&gt;
+      &lt;td&gt;0.7KB&lt;/td&gt;
+      &lt;td&gt;56.25%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;site-logo.svg&lt;/td&gt;
+      &lt;td&gt;1.7KB&lt;/td&gt;
+      &lt;td&gt;1.1KB&lt;/td&gt;
+      &lt;td&gt;35.29%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Web page&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;173KB&lt;/td&gt;
+      &lt;td&gt;145KB&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;16.19%&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;caption&quot;&gt;Figure 3: File size comparison&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Unminified&lt;/th&gt;
+      &lt;th&gt;Minified&lt;/th&gt;
+      &lt;th&gt;Reduction&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Web page&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;2.32s&lt;/td&gt;
+      &lt;td&gt;1.99s&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;14.22%&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;caption&quot;&gt;Figure 4: Load time comparison&lt;/div&gt;
+
+&lt;p&gt;Minification results in a web page that is 16.19% smaller, and loads 14.22% more quickly.&lt;/p&gt;
+
+&lt;h2&gt;Tools&lt;/h2&gt;
+
+&lt;p&gt;I use &lt;a href=&quot;http://gruntjs.com/&quot;&gt;Grunt&lt;/a&gt;, an offline build tool that automates a lot of web development tasks. It is quicker and less error prone than doing things manually.&lt;/p&gt;
+
+&lt;p&gt;The following Grunt plugins handle the minification of specific file types:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/gruntjs/grunt-contrib-htmlmin&quot;&gt;grunt-contrib-htmlmin&lt;/a&gt; - HTML files, .html .shtml&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/gruntjs/grunt-contrib-sass&quot;&gt;grunt-contrib-sass&lt;/a&gt; - CSS files, .css&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/gruntjs/grunt-contrib-uglify&quot;&gt;grunt-contrib-uglify&lt;/a&gt; - JavaScript files, .js&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/sindresorhus/grunt-svgmin&quot;&gt;grunt-svgmin&lt;/a&gt; - SVG files, .svg&lt;/p&gt;</content><author><name>KelstraTech</name></author><summary>Shrink your web page by minifying its files.</summary></entry><entry><title>The need for speed - Part 1</title><link href="https://www.kelstra.com/blog/the-need-for-speed/" rel="alternate" type="text/html" title="The need for speed - Part 1" /><published>2016-09-05T00:00:00+03:00</published><updated>2016-09-05T00:00:00+03:00</updated><id>https://www.kelstra.com/blog/the-need-for-speed</id><content type="html" xml:base="https://www.kelstra.com/blog/the-need-for-speed/">&lt;p&gt;Websites are increasing in size, with each passing day. The average web page &lt;a href=&quot;http://www.httparchive.org/interesting.php?a=All&amp;amp;l=Apr%201%202016&quot;&gt;weighs in at a hefty 2.3 megabytes&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Large pages are detrimental for a number of reasons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;They take longer to load.  If it takes too long, users may abandon the page and go elsewhere.&lt;/li&gt;
+  &lt;li&gt;They cost more, for users on a metered mobile data plan.&lt;/li&gt;
+  &lt;li&gt;They may be downgraded to a lower position in the search rankings, by search engines.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now that we’ve seen the consequences of a large page, we can look at ways to trim the fat.&lt;/p&gt;
+
+&lt;p&gt;But first, the obligatory ‘before’ picture:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;a href=&quot;/blog/images/the-need-for-speed/01-no-compression.jpg&quot; class=&quot;js-lightbox&quot;&gt;
+  &lt;figure&gt;
+    &lt;img src=&quot;/blog/images/the-need-for-speed/01-no-compression-s.jpg&quot; /&gt;
+    &lt;figcaption&gt;Figure 1: An unoptimised web page.&lt;span class=&quot;lightbox__enlarge-msg&quot;&gt; ( Click to enlarge )&lt;/span&gt;&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The Google Chrome browser ships with developer tools. These tools display all sorts of useful data, as can be seen in &lt;em&gt;Figure 1&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since this is an offline test, the network bandwidth has been throttled to &lt;em&gt;Regular 3G&lt;/em&gt;. This simulates a typical 3G online connection.&lt;/p&gt;
+
+&lt;p&gt;The web page is 173KB in size, the HTML document is loaded and parsed after 1.19 seconds, and the page is fully loaded after 2.44 seconds.&lt;/p&gt;
+
+&lt;p&gt;The browser requests eleven files from the server. Each request adds some latency, as the request has to travel all the way from the client to the web server. The requested file then travels all the way back.&lt;/p&gt;
+
+&lt;p&gt;The number of requests could be reduced to eight by combining the four JavaScript files into one file. I shall expound upon that particular optimisation in a subsequent article.&lt;/p&gt;
+
+&lt;p&gt;The first seven files are good candidates for compression. This is because they are all text files, which typically contain a significant amount of repetitive data.&lt;/p&gt;
+
+&lt;p&gt;The last four files are poor candidates for compression. They are binary files which have already been compressed by the image / font manipulation programs that created them.&lt;/p&gt;
+
+&lt;p&gt;The rest of this article describes procedures that are specific to the Apache web server. Equivalent procedures for other web servers are beyond the scope of this article.&lt;/p&gt;
+
+&lt;p&gt;In order to enable compression on the web server, an htaccess file is placed in the document root directory on the web server. The talented people over at &lt;a href=&quot;https://html5boilerplate.com/&quot;&gt;HTML5 Boilerplate&lt;/a&gt; maintain such a file. I am a firm believer in not reinventing the wheel, and so I have adopted code from their file.&lt;/p&gt;
+
+&lt;p&gt;The complete htaccess file comprises code from multiple files. However, we start with an empty htaccess file and introduce code in stages. This allows us to test each snippet of code in isolation.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Figure 2&lt;/em&gt; shows a few lines from the file, &lt;em&gt;compression.conf&lt;/em&gt;. The remaining lines have been omitted for brevity. The full listing may viewed &lt;a href=&quot;https://github.com/h5bp/server-configs-apache/blob/master/src/web_performance/compression.conf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+    &amp;lt;IfModule mod_setenvif.c&amp;gt;
+        &amp;lt;IfModule mod_headers.c&amp;gt;
+            SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+            RequestHeader append Accept-Encoding &quot;gzip,deflate&quot; env=HAVE_Accept-Encoding
+        &amp;lt;/IfModule&amp;gt;
+    &amp;lt;/IfModule&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;caption&quot;&gt;Figure 2: compression.conf&lt;/div&gt;
+
+&lt;p&gt;The htaccess file, containing just the contents of &lt;em&gt;compression.conf&lt;/em&gt;, may be downloaded &lt;a href=&quot;/blog/downloads/the-need-for-speed/htaccess.zip&quot;&gt;here&lt;/a&gt;. Unzip &lt;em&gt;htaccess.zip&lt;/em&gt; to extract.&lt;/p&gt;
+
+&lt;p&gt;The htaccess file is then uploaded to the document root directory on the web server. This directory is usually named &lt;em&gt;public_html&lt;/em&gt;. It may also be named &lt;em&gt;www&lt;/em&gt; or &lt;em&gt;httpdocs&lt;/em&gt;. &lt;em&gt;Figure 3&lt;/em&gt; shows the local copy of the file on the left, and the uploaded remote copy on the right.&lt;/p&gt;
+
+&lt;div&gt;
+  &lt;figure&gt;
+    &lt;img src=&quot;/blog/images/the-need-for-speed/03-remote-server.jpg&quot; /&gt;
+    &lt;figcaption&gt;Figure 3: An uploaded htaccess file.&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The test is run again. Let’s see what a difference enabling gzip compression can make.&lt;/p&gt;
+
+&lt;p&gt;The ‘after’ picture:&lt;/p&gt;
+
+&lt;div&gt;
+&lt;a href=&quot;/blog/images/the-need-for-speed/04-gzip-compression.jpg&quot; class=&quot;js-lightbox&quot;&gt;
+  &lt;figure&gt;
+    &lt;img src=&quot;/blog/images/the-need-for-speed/04-gzip-compression-s.jpg&quot; /&gt;
+    &lt;figcaption&gt;Figure 4: gzip compression is enabled.&lt;span class=&quot;lightbox__enlarge-msg&quot;&gt; ( Click to enlarge )&lt;/span&gt;&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Uncompressed&lt;/th&gt;
+      &lt;th&gt;Compressed&lt;/th&gt;
+      &lt;th&gt;Reduction&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;kelstra.shtml&lt;/td&gt;
+      &lt;td&gt;5.6KB&lt;/td&gt;
+      &lt;td&gt;2.0KB&lt;/td&gt;
+      &lt;td&gt;64.29%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;site.css&lt;/td&gt;
+      &lt;td&gt;43.4KB&lt;/td&gt;
+      &lt;td&gt;8.1KB&lt;/td&gt;
+      &lt;td&gt;81.34%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;fontfaceobserver.min.js&lt;/td&gt;
+      &lt;td&gt;5.7KB&lt;/td&gt;
+      &lt;td&gt;2.4KB&lt;/td&gt;
+      &lt;td&gt;57.89%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;modernizr.js&lt;/td&gt;
+      &lt;td&gt;9.1KB&lt;/td&gt;
+      &lt;td&gt;3.7KB&lt;/td&gt;
+      &lt;td&gt;59.34%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;main.js&lt;/td&gt;
+      &lt;td&gt;4.7KB&lt;/td&gt;
+      &lt;td&gt;1.7KB&lt;/td&gt;
+      &lt;td&gt;63.83%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;debug.js&lt;/td&gt;
+      &lt;td&gt;1.6KB&lt;/td&gt;
+      &lt;td&gt;0.88KB&lt;/td&gt;
+      &lt;td&gt;45.00%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;site-logo.svg&lt;/td&gt;
+      &lt;td&gt;1.7KB&lt;/td&gt;
+      &lt;td&gt;0.98KB&lt;/td&gt;
+      &lt;td&gt;42.35%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Web page&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;173KB&lt;/td&gt;
+      &lt;td&gt;121KB&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;30.06%&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;caption&quot;&gt;Figure 5: File size comparison&lt;/div&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Uncompressed&lt;/th&gt;
+      &lt;th&gt;Compressed&lt;/th&gt;
+      &lt;th&gt;Reduction&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Web page&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;2.44s&lt;/td&gt;
+      &lt;td&gt;1.75s&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;28.28%&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;caption&quot;&gt;Figure 6: Load time comparison&lt;/div&gt;
+
+&lt;p&gt;The web page is now 30.06% smaller, and loads 28.28% more quickly. A significant improvement!&lt;/p&gt;</content><author><name>KelstraTech</name></author><summary>Speed up your website by enabling server side compression.</summary></entry></feed>
